@@ -6,7 +6,7 @@ Created on Sat Apr 01 13:56:24 2017
 """
 #  import string
 
-from pyspark import SparkConf, SparkContext
+from pyspark import SparkConf, SparkContext 
 
 conf = SparkConf().setMaster("local[*]").setAppName("InvertedIndex")
 sc = SparkContext(conf = conf)
