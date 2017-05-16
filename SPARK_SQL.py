@@ -1,8 +1,7 @@
 
 # coding: utf-8
 
-# This tutorial is to introduce you to the fudnamentals of Spark SQL.
-# Quick summary of how Spark SQL works:
+
 # a) It uses DataFrames, which are collections of data distributed across data nodes.
 # b) Driver program typically launches the application. Executors, which run on data nodes,
 #     are responsible for running the actual code.
@@ -14,7 +13,7 @@
 
 # In[2]:
 
-#let us see if a SQL Context exists
+#to check if a SQL Context exists
 sqlContext
 
 
@@ -45,7 +44,7 @@ cricketer['name'], cricketer['age'], cricketer['batting_average']
 # In[7]:
 
 #we can create a table of cricketers from a Python list of tuples
-cricketers = [('Viv Richards', 62, "WI", 58.67), ('Greg Chappell', 64, "AUS", 56.83),              ('Doug Walters', 68, "AUS", 48.9), ('VVS Laxman', 41, "IND", 46.7),              ('Sachin Tendulkar', 42, 'IND', 57.8), ('Rahul Dravid', 41, 'IND', 54.5),              ('Garry Sobers', 78, "WI", 58.9), ('Rohan Kanhai', 75, "WI", 51.3),              ('GR Vishwanath', 68, "IND", 44.3)]
+cricketers = [('Viv Richards', 62, "WI", 58.67), ('Greg Chappell', 64, "AUS", 56.83),('Doug Walters', 68, "AUS", 48.9), ('VVS Laxman', 41, "IND", 46.7),              ('Sachin Tendulkar', 42, 'IND', 57.8), ('Rahul Dravid', 41, 'IND', 54.5),              ('Garry Sobers', 78, "WI", 58.9), ('Rohan Kanhai', 75, "WI", 51.3),              ('GR Vishwanath', 68, "IND", 44.3)]
 cricketers_df = sqlContext.createDataFrame(cricketers, ['Name','Age','Country','Average'])
 
 
@@ -76,7 +75,7 @@ cricketers_df.where(cricketers_df.Age > 70).show()
 # In[14]:
 
 #let us create another dataframe for Country Abbreviations and Country Names
-countries = [("IND", "INDIA"), ("WI", "WEST INDIES"), ("AUS", "AUSTRALIA"),              ("ENG", "ENGLAND"), ("NZ", "NEW ZEALAND")]
+countries = [("IND", "INDIA"), ("WI", "WEST INDIES"), ("AUS", "AUSTRALIA"), ("ENG", "ENGLAND"), ("NZ", "NEW ZEALAND")]
 countries_df = sqlContext.createDataFrame(countries, ["ID","NAME"])
 countries_df.show()
 
@@ -108,13 +107,13 @@ right_outer_join_df.show()
 
 # In[21]:
 
-inner_join_df = cricketers_df.join(countries_df, cricketers_df.Country == countries_df.ID, 'inner')                .select(cricketers_df.Name, countries_df.NAME.alias("Country_Name"), 'Average').show()
+inner_join_df = cricketers_df.join(countries_df, cricketers_df.Country == countries_df.ID, 'inner').select(cricketers_df.Name, countries_df.NAME.alias("Country_Name"), 'Average').show()
 
 
 # In[22]:
 
 #reading from a text file
-text_df = sqlContext.read.text("/Users/snerur/sample.txt")
+text_df = sqlContext.read.text("/Users/kruti/sample.txt")
 text_df.show()
 
 
@@ -135,9 +134,6 @@ exploded_df.show()
 
 #get the count for each word, sorted in descending order
 exploded_df.groupBy('words').count().sort("count", ascending=False).show()
-
-
-# In[ ]:
 
 
 
