@@ -4,7 +4,7 @@
 # In[2]:
 
 #Let us first read in the weather data and create an RDD
-rdd = sc.textFile("/Users/snerur/ibm/sparkExamples/2015.csv")
+rdd = sc.textFile("/Users/kruti/sparkExamples/2015.csv")
 
 
 # In[2]:
@@ -58,7 +58,7 @@ print "Average Precipitation for USIFLSL0019: %.2f" % (total / counts)
 
 from pyspark.sql import SparkSession
 
-spark = SparkSession     .builder     .appName("Python Spark SQL basic example")     .config("spark.some.config.option", "some-value")     .getOrCreate()
+spark = SparkSession.builder.appName("Python Spark SQL basic example").config("spark.some.config.option", "some-value").getOrCreate()
 
 
 # In[5]:
@@ -103,7 +103,7 @@ result.show()
 # In[15]:
 
 #Average precipitation by weather station
-result = spark.sql("select STATION, AVG(VALUE) AS AVERAGE from weather where METRIC = 'PRCP'                     GROUP BY STATION ORDER BY AVERAGE DESC")
+result = spark.sql("select STATION, AVG(VALUE) AS AVERAGE from weather where METRIC = 'PRCP' GROUP BY STATION ORDER BY AVERAGE DESC")
 result.show(10)
 
 
