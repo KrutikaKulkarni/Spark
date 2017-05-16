@@ -14,15 +14,14 @@ sc = SparkContext(conf = conf)
 file1 = sc.wholeTextFiles("C:\Users\Krutika\Desktop\Shakespeare\*")
 file2 = file1.map(lambda (x,y) : (y,x))
 file3 = file2.mapValues(lambda x : x.split('/')[-1])
-#filen = file3.map(lambda (x, y) : (x.split("\n")))
-"""
+
 def remove_pucnt(x):
     for i in range (len(x)):
         x[i] = x[i].translate(None, string.punctuation)
         #x[i]= re.sub('[ \t]+' , ' ', x[i])
         
     return (x)
-"""
+
 #To remove punctuation 
 remove_punct = lambda x : x not in string.punctuation
 
@@ -31,34 +30,32 @@ remove_punct = lambda x : x not in string.punctuation
 #creating Rdd with words(keys) without punctuation 
 file4 = file3.map(lambda (x, y) : (filter(remove_punct, x), y) )
 
-#converting to lower case 
+ 
 def func(x):
     y = []
     for i in x:
         if i not in y:
             y.append(i)   
     return y
-
+#converting to lower case
 file5 = file4.map(lambda (x,y) : (x.lower(), y))
+
 file6 = file5.flatMap(lambda(content,name):map(lambda word : (word,name), content.split()))
 
-
-
 file7 = file6.map(lambda (word,name) : ((word,name), 1))
+
 file8 = file7.reduceByKey(lambda count1, count2 : count1+count2)
+
 file9 = file8.map(lambda((word,name), count):(word,(name,count)))
 
-#file5 = file4.flatMap(lambda (content,filename) : map(lambda word : (word,filename), content.split()))
-
 result = file9.groupByKey().mapValues(list)
+
 file10 = result.map(lambda (x,y):(x,func(y)))
 
-#result = file5.reduceByKey(lambda word, filename : str(word))
-#print result.collect()
 for i in file10.collect():
     print i
 
-#file10.saveAsTextFile("C:\Users\Krutika\Desktop\myOutputPart2.txt")
+file10.saveAsTextFile("C:\Users\Krutika\Desktop\myOutputPart2.txt")
 
-#print result.distinct().collect()
+
    
